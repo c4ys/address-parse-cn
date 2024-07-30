@@ -1,6 +1,6 @@
 {
-  "name": "address-parse-cn",
-  "version": "2.3.0",
+  "name": "cn-address-parser",
+  "version": "2.5.0",
   "description": "中文地址解析，更新到2023年，解决直辖县等问题",
   "main": "dist/parse/index.js",
   "devDependencies": {
@@ -23,10 +23,10 @@
     "build": "babel src -d dist",
     "build-web": "webpack --config ./build/webpack.config.js"
   },
-  "homepage": "https://github.com/shouhoulian/address-parse-cn",
+  "homepage": "https://github.com/c4ys/address-parse-cn",
   "repository": {
     "type": "git",
-    "url": "git@github.com:shouhoulian/address-parse-cn.git"
+    "url": "git@github.com:c4ys/address-parse-cn.git"
   },
   "license": "MIT"
 }
