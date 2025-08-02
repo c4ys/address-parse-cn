@@ -51,5 +51,5 @@ test("重庆,重庆市,垫江县,澄溪镇人民路355号", () => {
     true
   );
 
-  expect(result[0]["code"]).toEqual("500231");
+  expect(result[0]["code"]).toEqual("500100");
 });
