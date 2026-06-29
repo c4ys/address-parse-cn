@@ -158,6 +158,12 @@ class ParseAddress {
     firstName
   } = {}) {
     if (!result.name || _utils.default.strLen(result.name) > 15) {
+      if (ParseAddress.parseNameByReceiverSuffix(result)) {
+        return result.name;
+      }
+      if (ParseAddress.parseNameByOrganization(result)) {
+        return result.name;
+      }
       const list = result.details.split(" ");
       const name = {
         value: "",
@@ -181,6 +187,33 @@ class ParseAddress {
       }
     }
     return result.name;
+  }
+  static parseNameByReceiverSuffix(result) {
+    const match = result.details.match(/(^|[\s,，。;；、)）\]】》>」』])([\u4e00-\u9fa5]{2,4})收\s*$/);
+    if (!match) return false;
+    result.name = match[2];
+    result.details = result.details.substr(0, match.index + match[1].length).trim();
+    return true;
+  }
+  static parseNameByOrganization(result) {
+    const organizationSuffix = "(?:律师事务所|事务所|有限公司|公司)";
+    const organizationName = `[\\u4e00-\\u9fa5A-Za-z][\\u4e00-\\u9fa5A-Za-z0-9（）()·&-]*${organizationSuffix}`;
+    const markers = ["[0-9A-Za-z]+(?:[-－—][0-9A-Za-z]+)?(?:号房|房间|室|房|户)", "[0-9A-Za-z]+(?:[-－—][0-9A-Za-z]+)?(?:商铺|铺位|档口|柜台|工位|卡位|铺)", "[0-9A-Za-z]+(?:号楼|栋|幢|座|楼|层|[Ff]|单元|门|梯)\\s*[0-9A-Za-z]+(?:[-－—][0-9A-Za-z]+)?", "[0-9A-Za-z]+(?:楼|层|[Ff])", "[0-9A-Za-z]+(?:单元|门|梯)", "[0-9A-Za-z]+(?:号楼|栋|幢|座)", "[0-9A-Za-z]+号"];
+    const match = markers.reduce((matched, marker) => {
+      const current = result.details.match(new RegExp(`(${marker})\\s*(${organizationName})\\s*$`));
+      if (!current) return matched;
+      if (!matched) return current;
+      if (current.index > matched.index) return current;
+      if (current.index === matched.index && current[1].length > matched[1].length) {
+        return current;
+      }
+      return matched;
+    }, null);
+    if (!match) return false;
+    result.name = match[2];
+    result.details = result.details.substr(0, match.index) + match[1];
+    result.details = result.details.trim();
+    return true;
   }
 
   /**

@@ -119,6 +119,8 @@ class ParseArea {
 
   static AreaShort = {};
 
+  static DevelopmentAreaAliases = ["经济开发区", "经开区", "开发区"];
+
   static init() {
     for (const code in AREA.province_list) {
       const province = AREA.province_list[code];
@@ -449,6 +451,14 @@ class ParseArea {
         index = _index;
         shortArea = matchName;
       }
+      if (index === -1) {
+        const aliasMatch = ParseArea.matchDevelopmentAreaAlias(
+          address,
+          area.name
+        );
+        index = aliasMatch.index;
+        shortArea = aliasMatch.matchName;
+      }
       const areaLength = shortArea ? shortArea.length : area.name.length;
       if (
         index > -1 &&
@@ -477,6 +487,35 @@ class ParseArea {
       address = _result.address;
     }
     return address;
+  }
+
+  static matchDevelopmentAreaAlias(address, areaName) {
+    if (!areaName.includes("经济") || !areaName.includes("开发区")) {
+      return {
+        index: -1,
+        matchName: "",
+      };
+    }
+
+    return ParseArea.DevelopmentAreaAliases.reduce(
+      (result, alias) => {
+        const index = address.indexOf(alias);
+        if (
+          index > -1 &&
+          (result.index === -1 ||
+            index < result.index ||
+            (index === result.index && alias.length > result.matchName.length))
+        ) {
+          result.index = index;
+          result.matchName = alias;
+        }
+        return result;
+      },
+      {
+        index: -1,
+        matchName: "",
+      }
+    );
   }
 
   /**
