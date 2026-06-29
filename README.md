@@ -1,10 +1,7 @@
 # CN Address Parse
 
 国内地址地区智能解析，无需完整地址也能正确匹配  
-如有识别不准的地址请 [issuse](https://github.com/akebe/address-parse/issues)
-
-可通过这个简单的页面在线测试一下识别精度  
- [address parse 地址解析测试](https://asseek.gitee.io/address-parse/)
+如有识别不准的地址请 [issue](https://github.com/c4ys/address-parse-cn/issues)
 
 ### Install
 `npm install address-parse-cn --save`
@@ -97,10 +94,6 @@ Utils.Reg. //mobile phone zipCode
 可以使用全局变量`AddressParse`来调用。  
 包内暴露的方法已经直接挂载在`AddressParse`实例上以供调用
 
-
-### 组件库
- [element-address](https://github.com/akebe/element-address)  
- 基于 [address-parse](https://github.com/akebe/address-parse) 通过 [element-ui](https://github.com/ElemeFE/element) 实现的即开即用地址类组件库
 
 ### LICENSE
 [MIT](https://en.wikipedia.org/wiki/MIT_License)
