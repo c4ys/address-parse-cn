@@ -24,7 +24,8 @@
   ],
   "scripts": {
     "build": "babel src -d dist",
-    "build-web": "webpack --config ./build/webpack.config.js"
+    "build-web": "webpack --config ./build/webpack.config.js",
+    "parse": "node scripts/parse.js"
   },
   "homepage": "https://github.com/c4ys/address-parse-cn",
   "repository": {
